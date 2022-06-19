@@ -1,3 +1,5 @@
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
@@ -40,3 +42,4 @@ class RetrieveUpdateDestroyCarAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    filter_backends = [DjangoFilterBackend]
