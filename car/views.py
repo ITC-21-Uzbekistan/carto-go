@@ -37,9 +37,23 @@ class ListCreateCarAPIView(ListCreateAPIView):
     serializer_class = CarSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    def get_queryset(self):
+        queryset = Car.objects.all()
+        params = self.request.query_params
+
+        brand = params.get('brand', None)
+        category = params.get('category', None)
+
+        if brand:
+            queryset = queryset.filter(brand_id=brand)
+
+        if category:
+            queryset = queryset.filter(category_id=category)
+
+        return queryset
+
 
 class RetrieveUpdateDestroyCarAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
-    filter_backends = [DjangoFilterBackend]
